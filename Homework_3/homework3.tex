@@ -454,16 +454,16 @@ Program listings should have one line per instruction/address as follows:
 				\hline
 		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
 				\hline
-				00 & LDA14 & // Load the value from location 14 into the Accumulator \\
-				01 & SUB15 & // Substract the value at location 15 from the Accumulator \\
-				02 & STA14 & // Store the value of the Accumulator at location 14 \\
-				03 & LDA12 & // Load the value from location 12 into the Accumulator \\				
-				04 & OUT12 & // Output the value from location 12 \\
-				05 & MUL13 & // Multiply the value in the Accumulator by the value at location 13 \\
-				06 & STA12 & // Store the value from the Accumulator at location 12 \\	
-				07 & LDA14 & // Load the value from location 14 into the Accumulator \\	
+				00 & LDA14 & // Load the loop counter's current value - Initialized to 6 in memory \\
+				01 & SUB15 & // Subtract one from the loop counter \\
+				02 & STA14 & // Store the decremented loop counter at the same address it was loaded from \\
+				03 & LDA12 & // Load the current value in the sequence \\				
+				04 & OUT12 & // Output the current value \\
+				05 & MUL13 & // Multiply the current value by 2 - Address 13 is preinitialized to 2 in memory \\
+				06 & STA12 & // Store the current value, overwriting the original location \\	
+				07 & LDA14 & // Load the loop counter's current value into the accumulator \\	
 				08 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
-				09 & JMP0  & // Jump to address 00 \\	
+				09 & JMP1  & // Jump to address 01 \\	
 				10 & STP   & // HALT \\													
 				\hline
 			\end{tabular} 
@@ -484,17 +484,18 @@ Program listings should have one line per instruction/address as follows:
 				\hline
 		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
 				\hline
-				00 & LDA14 & // Load the value from location 14 into the Accumulator \\
-				01 & SUB15 & // Substract the value at location 15 from the Accumulator \\
-				02 & STA14 & // Store the value of the Accumulator at location 14 \\
-				03 & LDA12 & // Load the value from location 12 into the Accumulator \\				
-				04 & OUT12 & // Output the value from location 12 \\
-				05 & MUL13 & // Multiply the value in the Accumulator by the value at location 13 \\
-				06 & STA12 & // Store the value from the Accumulator at location 12 \\	
-				07 & LDA14 & // Load the value from location 14 into the Accumulator \\	
-				08 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
-				09 & JMP0  & // Jump to address 00 \\	
-				10 & STP   & // HALT \\													
+				00 & LDA16 & // Load the loop counter's current value - Initialized to 6 in memory \\
+				01 & SUB17 & // Subtract one from the loop counter \\
+				02 & STA16 & // Store the decremented loop counter at the same address it was loaded from \\
+				03 & LDA14 & // Load the current value in the sequence \\				
+				04 & OUT14 & // Output the current value to the screen \\
+				05 & MUL15 & // Multiply the current value by 2 - Address 15 is preinitialized to 2 in memory \\
+				06 & ADD17 & // Add 1 to the current value \\	
+				07 & STA14 & // Store the current value, overwriting the original location \\	
+				08 & LDA16 & // Load the loop counter's current value into the accumulator \\	
+				09 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
+				10 & JMP1  & // Jump to address 01 \\													
+				11 & STP   & // HALT \\
 				\hline
 			\end{tabular} 
 		\end{table}
@@ -502,7 +503,7 @@ Program listings should have one line per instruction/address as follows:
 		A screenshot of this program can be found on the next page:
 		
 \pagebreak
-		\centerline{\includegraphics{sequence1.jpg}}
+		\centerline{\includegraphics{sequence2.jpg}}
 \pagebreak
 
 		\solution\ \ \large{Sequence C}
@@ -514,17 +515,20 @@ Program listings should have one line per instruction/address as follows:
 				\hline
 		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
 				\hline
-				00 & LDA14 & // Load the value from location 14 into the Accumulator \\
-				01 & SUB15 & // Substract the value at location 15 from the Accumulator \\
-				02 & STA14 & // Store the value of the Accumulator at location 14 \\
-				03 & LDA12 & // Load the value from location 12 into the Accumulator \\				
-				04 & OUT12 & // Output the value from location 12 \\
-				05 & MUL13 & // Multiply the value in the Accumulator by the value at location 13 \\
-				06 & STA12 & // Store the value from the Accumulator at location 12 \\	
-				07 & LDA14 & // Load the value from location 14 into the Accumulator \\	
-				08 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
-				09 & JMP0  & // Jump to address 00 \\	
-				10 & STP   & // HALT \\													
+				00 & LDA16 & // Load the loop counter's current value - Initialized to 6 in memory \\
+				01 & SUB17 & // Subtract one from the loop counter \\
+				02 & STA16 & // Store the decremented loop counter at the same address it was loaded from \\
+				03 & OUT15 & // Output current value in the sequence \\				
+				04 & LDA14 & // Load the next sequence value from location 14 into the Accumulator \\
+				05 & ADD15 & // Add the prior sequence value to the Accumulator \\
+				06 & STA14 & // Store the current value at the 'next value' address \\	
+				07 & ADD15 & // Add the previous value to the Accumulator value to get the next value in the sequence \\	
+				08 & STA15 & // Store the Accumulated value, this becomes the 'previous value' in the next iteration \\	
+				09 & OUT14 & // Output the current value. Both previous and next value are output each iteration. \\	
+				10 & LDA16 & // Load the loop counter's current value \\													
+				11 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
+				12 & JMP1  & // Jump to address 01 \\
+				13 & STP   & // HALT \\
 				\hline
 			\end{tabular} 
 		\end{table}
@@ -532,25 +536,36 @@ Program listings should have one line per instruction/address as follows:
 		A screenshot of this program can be found on the next page:
 		
 \pagebreak
-		\centerline{\includegraphics{sequence1.jpg}}
+		\centerline{\includegraphics{sequence3.jpg}}
 \pagebreak
 
 	\section{A Decision Maker}
 	\item[3.3)]	Write a program that uses an INP instruction. If the number that you INPut is positive or zero, have your program OUTput the number 1. If the number that you INPut is negative, have the program OUTput the number zero.
 	
-		\solution
+		\solution\ \ \large{Sequence C}
 		
 		\begin{table}[h]
 		\def\arraystretch{1.5}%
 		\hfil
-			\begin{tabular}{|c c c c|}
+			\begin{tabular}{|c l l|}
 				\hline
-		 		\multicolumn{1}{|c|}{Address} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
 				\hline
-				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				00 & INP14 & // Input a number to location 14 \\
+				01 & LDA14 & // Load the value at location 14 into the Accumulator \\
+				02 & SKP5  & // Skip the next instruction if the value in the Accumulator is positive \\
+				03 & OUT13 & // Output the value stored at location 13 - Initialized to 0 \\				
+				04 & SKP1  & // Skip the next instruction if the value in the Accumulator is positive \\
+				05 & OUT12 & // Output the value stored at location 12 - Initialized to 1 \\
+				06 & STP   & // HALT \\	
 				\hline
 			\end{tabular} 
 		\end{table}
+	
+		A screenshot of this program can be found on the next page:
+		
+\pagebreak
+		\centerline{\includegraphics{decisionmaker.jpg}}
 	\end{itemize}
 \end{homeworkProblem}
 
