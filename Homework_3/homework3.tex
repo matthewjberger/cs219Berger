@@ -1,0 +1,346 @@
+\documentclass[14pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{scrextend}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+\newcommand{\hmwkClass}{CS 219}
+\newcommand{\hmwkTitle}{Homework\ \#3}
+\newcommand{\hmwkDueDate}{September 21, 2016}
+\newcommand{\hmwkDueTime}{4:00pm}
+\newcommand{\hmwkClassInstructor}{Dr. Egbert}
+\newcommand{\hmwkAuthorName}{Matthew J. Berger}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at \hmwkDueTime}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution:}}
+
+% Alias for answers
+\newcommand{\answer}{\textbf{\large Answer: }}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+	\begin{itemize}
+		\item[1.2.)] A.) On the IAS, what would the machine code instruction look like to load the contents of memory address 2 to the accumulator? \\
+		
+		\answer
+		\item[     ] B.) How many trips to memory does the CPU need to make to complete this instruction during the instruction cycle? \\		
+		
+		\answer
+		\item[1.3.)] On the IAS, describe in English the process that the CPU must undertake to read a value from memory and to write a value to memory in terms of what is put into the MAR, MBR, address bus, data bus, and control bus. \\
+		
+		\answer
+		\item[1.4.)] Given the memory contents of the IAS computer shown below, \\
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c|c|}
+				\hline
+				Address & Contents \\
+				\hline
+				08A & 010FA210FB \\
+				08B & 010FA0F08D \\
+				08C & 020FA210FB \\
+				\hline
+			\end{tabular}
+		\end{table}
+		
+		Show the assembly language code for the program, starting at address 08A. Explain what this program does.
+		
+		\item[1.5.)] In Figure 1.6, indicate the width, in bits, of each data path (e.g., between AC and ALU). \\
+		
+			\answer			
+	\end{itemize}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+	\begin{itemize}
+		\item[2.2)] Consider two different machines, with two different instruction sets, both of which have a clock rate of 200 MHz. The following measurements are recorded on the two machines running a given set of benchmark programs:
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|l|c|c|}
+			\hline
+			Instruction Type & Instruction Count (millions) & Cycles Per Instruction \\
+			\hline			
+            & & \\
+			Machine A & & \\
+			\hline
+			Arithmetic and Logic & 8 & 1 \\
+			\hline
+			Load and Store & 4 & 2 \\
+			\hline
+			Branch & 2 & 4 \\
+			\hline
+			Others & 4 & 3 \\
+			\hline
+			 & & \\
+			Machine B & & \\
+			\hline
+			Arithmetic and Logic & 10 & 1 \\
+			\hline
+			Load and Store & 8 & 2 \\
+			\hline
+			Branch & 2 & 4 \\
+			\hline
+			Others & 4 & 3 \\
+			\hline			
+			\end{tabular}
+		\end{table}
+		
+		A.) Determine the effective CPI, MIPS rate, and execution time for each machine.
+	\item[    ]	B.) Comment on the results. \\
+	
+	\answer
+	
+	\pagebreak
+	
+		\item[2.4)] Four benchmark programs are executed on three computers with the following results:
+		
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|l|c|c|c|}
+				\hline
+		 		& Computer A & Computer B & Computer C \\
+				\hline
+				Program 1 & 1 & 10 & 20 \\
+				\hline
+				Program 2 & 1000 & 100 & 20 \\
+				\hline
+				Program 3 & 500 & 1000 & 50 \\
+				\hline				
+				Program 4 & 100 & 800 & 100 \\								
+				\hline
+			\end{tabular} 
+		\end{table}
+		
+The table shows the execution time in seconds, with 100,000,000 instructions executed in each of the four programs. Calculate the MIPS values for each computer for each program. Then calculate the arithmetic and harmonic means assuming equal weights of the four programs, and rank the computers based on arithmetic and harmonic mean.
+	\end{itemize}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+Download the Simulated Computer zip and pdf files from the Simulated Computer Folder on Canvas. Unzip and install the executable file on your own computer. The provided version actually runs on an ATARI 800 computer. An emulator for the ATARI 800 is included in the zip file. The program to execute after un-zipping is 'ATARI800Win.exe'. The first time you run the emulator you should click on \linebreak File $\rightarrow$ Autoboot Image $\rightarrow$ Simulated Computer II.atr. After this, when you execute the emulator the Simulated Computer program should automatically start. The provided PDF is the user's manual for the simulated computer.
+
+After you review Appendices II, III, and IV of the user's manual, write assembly language programs for the following three exercises. Include screen shots and separate program listings for exercises.
+
+Program listings should have one line per instruction/address as follows:
+
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c c c c|}
+				\hline
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+				\hline
+				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				\hline
+			\end{tabular} 
+		\end{table}
+		
+\pagebreak
+		
+	\begin{itemize}
+	\section{ Evaluating Algebraic Expressions}
+	\item[3.1)]	Those of you who have stuided algebra may recall that you were occasionally required to calculate the value of an expression when particular values are substituted for variables. For example, the expression $7X$ is equal to $14$ if $X = 2$. The value is $42$ if $X = 6$. The value of the expression $3X - 5$ is 13 if you substitute $6$ for $X$. (Note: 3X means 3 times X.)
+	
+	Write a computer program which will evaluate the expression: $7X - 8$. Check your program by running it and inputting the numbers given below.
+	
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c|c|}
+				\hline
+		 		Input & Output \\
+				\hline
+				3 & 13 \\
+				\hline
+				43 & 293 \\				
+				\hline
+			\end{tabular} 
+		\end{table}
+		
+	\solution
+	
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c c c c|}
+				\hline
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+				\hline
+				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				\hline
+			\end{tabular} 
+		\end{table}
+
+\pagebreak
+
+	\section{Number Sequences}
+	\item[3.2)]	A number sequence is a series of numbers that follow a particular "rule", or pattern, as they go from one to the next. For example, the sequence:\\\\
+	(a) 3, 6, 12, 24, 48, 96, etc. \\\\
+	uses the rule "multiply by 2". Can you guess the rule for the following sequence? \\\\
+	(b) 2, 5, 11, 23, 47, 95, etc. \\\\
+	(It is "times 2 then add 1".) \\
+	
+	Once you know the rule for a sequence, you can write a program which will output that sequence. First, write programs that output sequences (a) and (b).
+	
+	Then write a program that outputs the Fibonacci sequence: \\\\
+	(d) 1, 1, 2, 3, 5, 8, 13, 21, 34, etc. \\
+	
+		\solution
+		
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c c c c|}
+				\hline
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+				\hline
+				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				\hline
+			\end{tabular} 
+		\end{table}
+	
+\pagebreak
+
+	\section{A Decision Maker}
+	\item[3.3)]	Write a program that uses an INP instruction. If the number that you INPut is positive or zero, have your program OUTput the number 1. If the number that you INPut is negative, have the program OUTput the number zero.
+	
+		\solution
+		
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c c c c|}
+				\hline
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+				\hline
+				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				\hline
+			\end{tabular} 
+		\end{table}
+	\end{itemize}
+\end{homeworkProblem}
+
+\end{document}
