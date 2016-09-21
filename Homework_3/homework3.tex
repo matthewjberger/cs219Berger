@@ -12,6 +12,7 @@
 \usepackage{enumitem}
 \usepackage{relsize}
 \usepackage{scrextend}
+\usepackage{graphicx}
 
 \usetikzlibrary{automata,positioning}
 
@@ -375,11 +376,11 @@ Program listings should have one line per instruction/address as follows:
 		\begin{table}[h]
 		\def\arraystretch{1.5}%
 		\hfil
-			\begin{tabular}{|c c c c|}
+			\begin{tabular}{|c c c|}
 				\hline
-		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
 				\hline
-				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				03 & LDA15 & // Load the value 15 into the accumulator \\
 				\hline
 			\end{tabular} 
 		\end{table}
@@ -411,15 +412,25 @@ Program listings should have one line per instruction/address as follows:
 		\begin{table}[h]
 		\def\arraystretch{1.5}%
 		\hfil
-			\begin{tabular}{|c c c c|}
+			\begin{tabular}{|c l l|}
 				\hline
-		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
 				\hline
-				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				00 & INP14 & // Input a value to location 14 \\
+				01 & LDA14 & // Load the value at location 14 into the Accumulator \\
+				02 & MUL12 & // Multiply the value in the Accumulator by the value at location 12 \\
+				03 & SUB13 & // Substract the value in the Accumulator by the value at location 13 \\					
+				04 & STA14 & // Store the value in the Accumulator at location 14 \\
+				05 & OUT14 & // Output the value at location 14 \\
+				06 & STP   & // HALT \\	
 				\hline
 			\end{tabular} 
 		\end{table}
-
+		
+		A screenshot of this program can be found on the next page:
+		
+\pagebreak
+		\centerline{\includegraphics{expressionevaluation.jpg}}
 \pagebreak
 
 	\section{Number Sequences}
@@ -432,22 +443,96 @@ Program listings should have one line per instruction/address as follows:
 	Once you know the rule for a sequence, you can write a program which will output that sequence. First, write programs that output sequences (a) and (b).
 	
 	Then write a program that outputs the Fibonacci sequence: \\\\
-	(d) 1, 1, 2, 3, 5, 8, 13, 21, 34, etc. \\
+	(c) 1, 1, 2, 3, 5, 8, 13, 21, 34, etc. \\
 	
-		\solution
+		\solution\ \ \large{Sequence A}
 		
 		\begin{table}[h]
 		\def\arraystretch{1.5}%
 		\hfil
-			\begin{tabular}{|c c c c|}
+			\begin{tabular}{|c l l|}
 				\hline
-		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
 				\hline
-				03 & LDA & 15 & // Load the value 15 into the accumulator \\
+				00 & LDA14 & // Load the value from location 14 into the Accumulator \\
+				01 & SUB15 & // Substract the value at location 15 from the Accumulator \\
+				02 & STA14 & // Store the value of the Accumulator at location 14 \\
+				03 & LDA12 & // Load the value from location 12 into the Accumulator \\				
+				04 & OUT12 & // Output the value from location 12 \\
+				05 & MUL13 & // Multiply the value in the Accumulator by the value at location 13 \\
+				06 & STA12 & // Store the value from the Accumulator at location 12 \\	
+				07 & LDA14 & // Load the value from location 14 into the Accumulator \\	
+				08 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
+				09 & JMP0  & // Jump to address 00 \\	
+				10 & STP   & // HALT \\													
 				\hline
 			\end{tabular} 
 		\end{table}
 	
+		A screenshot of this program can be found on the next page:
+		
+\pagebreak
+		\centerline{\includegraphics{sequence1.jpg}}
+\pagebreak
+
+		\solution\ \ \large{Sequence B}
+		
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c l l|}
+				\hline
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
+				\hline
+				00 & LDA14 & // Load the value from location 14 into the Accumulator \\
+				01 & SUB15 & // Substract the value at location 15 from the Accumulator \\
+				02 & STA14 & // Store the value of the Accumulator at location 14 \\
+				03 & LDA12 & // Load the value from location 12 into the Accumulator \\				
+				04 & OUT12 & // Output the value from location 12 \\
+				05 & MUL13 & // Multiply the value in the Accumulator by the value at location 13 \\
+				06 & STA12 & // Store the value from the Accumulator at location 12 \\	
+				07 & LDA14 & // Load the value from location 14 into the Accumulator \\	
+				08 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
+				09 & JMP0  & // Jump to address 00 \\	
+				10 & STP   & // HALT \\													
+				\hline
+			\end{tabular} 
+		\end{table}
+	
+		A screenshot of this program can be found on the next page:
+		
+\pagebreak
+		\centerline{\includegraphics{sequence1.jpg}}
+\pagebreak
+
+		\solution\ \ \large{Sequence C}
+		
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\hfil
+			\begin{tabular}{|c l l|}
+				\hline
+		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction}  & \multicolumn{1}{|c|}{Comments} \\
+				\hline
+				00 & LDA14 & // Load the value from location 14 into the Accumulator \\
+				01 & SUB15 & // Substract the value at location 15 from the Accumulator \\
+				02 & STA14 & // Store the value of the Accumulator at location 14 \\
+				03 & LDA12 & // Load the value from location 12 into the Accumulator \\				
+				04 & OUT12 & // Output the value from location 12 \\
+				05 & MUL13 & // Multiply the value in the Accumulator by the value at location 13 \\
+				06 & STA12 & // Store the value from the Accumulator at location 12 \\	
+				07 & LDA14 & // Load the value from location 14 into the Accumulator \\	
+				08 & SKP4  & // Skip the next instruction if the value in the Accumulator is less than or equal to 0 \\	
+				09 & JMP0  & // Jump to address 00 \\	
+				10 & STP   & // HALT \\													
+				\hline
+			\end{tabular} 
+		\end{table}
+	
+		A screenshot of this program can be found on the next page:
+		
+\pagebreak
+		\centerline{\includegraphics{sequence1.jpg}}
 \pagebreak
 
 	\section{A Decision Maker}
@@ -460,7 +545,7 @@ Program listings should have one line per instruction/address as follows:
 		\hfil
 			\begin{tabular}{|c c c c|}
 				\hline
-		 		\multicolumn{1}{|c|}{Line Number} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
+		 		\multicolumn{1}{|c|}{Address} &  \multicolumn{1}{|c|}{Instruction} & \multicolumn{1}{|c|}{Argument} & \multicolumn{1}{|c|}{Comments} \\
 				\hline
 				03 & LDA & 15 & // Load the value 15 into the accumulator \\
 				\hline
