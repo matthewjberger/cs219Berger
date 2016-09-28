@@ -1,0 +1,277 @@
+\documentclass[14pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{scrextend}
+\usepackage{graphicx}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+\newcommand{\hmwkClass}{CS 219}
+\newcommand{\hmwkTitle}{Homework\ \#4}
+\newcommand{\hmwkDueDate}{September 28, 2016}
+\newcommand{\hmwkDueTime}{4:00pm}
+\newcommand{\hmwkClassInstructor}{Dr. Egbert}
+\newcommand{\hmwkAuthorName}{Matthew J. Berger}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at \hmwkDueTime}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution:}}
+
+% Alias for answers
+\newcommand{\answer}{\textbf{\large Answer: }}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+	\begin{itemize}
+		\item[1.1.)] Convert the following binary numbers to their decimal equivalents:
+		\begin{enumerate}[label=\alph*)] 
+			\item 001100
+			\item 000011 
+			\item 011100
+			\item 111100
+			\item 101010
+		\end{enumerate}
+		
+		\solution
+		
+		\begin{enumerate}[label=\alph*)] 
+			\item 12
+			\item 3
+			\item 28
+			\item 60
+			\item 42
+		\end{enumerate}
+		
+		\item[1.2.)] Convert the following hexadecimal numbers to their decimal equivalents:
+		\begin{enumerate}[label=\alph*)] 
+			\item C
+			\item 9F 
+			\item D52
+			\item 67E
+			\item ABCD
+		\end{enumerate}
+		
+		\solution
+		
+		\begin{enumerate}[label=\alph*)] 
+			\item 12
+			\item 159
+			\item 3410 
+			\item 1662
+			\item 43981
+		\end{enumerate}
+	\end{itemize}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+	\begin{itemize}
+		\item[2.1.)] Briefly explain the following representations: Sign Magnitude, Twos Complement, Biased.
+		
+		\answer
+		
+		\begin{itemize}
+		\item Sign Magnitude representation uses the most significant bit as a "sign bit" that represents the sign of the number. 1 is for a negative number or negative zero. The remaining bits stand for the absolute value of the number.
+		
+		\item In Two's Complement representation, negative numbers are represented by the bit pattern that you get when you take the inverse and add 1. The inverse is taken by flipping the bits to get the one's complement (inverse of the number), and then adding 1 to get the two's complement.
+		
+		\item In Biased representation, a pre-specified number $K$ is used as a biasing value. Values are represented in this sytem by the unsigned number which is $K$ greater than the actual value.
+		\end{itemize}
+		
+		\item[2.2.)] What is the difference between the two's complement representation of a number and the two's complement of a number?
+		
+		\answer
+		
+		You can get the two's complement of a number by inverting all of the bits and adding 1 to the result. This number will be different however, than the representation of that number in two's complement representation. For example, the number 7 is 0111 in binary. The inverse is: 1000. Adding 1 yields: 1001. This number is the two's complement of 7 in binary. However the two's complement representation of +7 in binary is 0111.
+		
+		\item[2.3.)] What are the four essential elements of a number in floating-point notation?
+		
+		\answer
+		
+		\begin{itemize}
+			\item Significand
+			\item Base
+			\item Radix
+			\item Exponent
+		\end{itemize}
+		
+		\item[2.4.)] What is the benefit of using biased representation for the exponent portion of a floating point number?
+		
+		\answer
+		
+		Positive floating point numbers can be referred to as integer values for comparisons.
+		
+		\item[2.5.)] What are the differences among positive overflow, exponent overflow, and significand overflow?
+		
+		\answer
+		
+		\begin{itemize}
+			\item \underline{Positive Overflow} uses integer representations. It refers to a number that is larger than the number of bits being used allows.
+			\item \underline{Exponent Overflow} is for floating point representations. It refers to the positive exponent value being larging than the maximum possible exponent value that can be represented by the number of available bits.
+			\item \underline{Significand Overflow} happens when two significands of the same sign result in a carry out of the most signficant bit.
+		\end{itemize}
+		
+		\pagebreak
+		
+		\item[2.6.)] Express the following numbers in IEEE 32-bit floating-point format:
+			\begin{enumerate}[label=\alph*)] 
+				\item -5
+				\item -6
+				\item -1.5
+				\item 384
+				\item \(\frac{1}{16}\)
+				\item \(-\frac{1}{32}\)
+			\end{enumerate}
+			
+			\solution
+			
+			\begin{enumerate}[label=\alph*)] 
+				\item 1 10000001 01000000000000000000000
+				\item 1 10000001 10000000000000000000000
+				\item 1 01111111 10000000000000000000000
+
+				\item 0 10000111 10000000000000000000000
+				\item 0 01111011 00000000000000000000000
+				
+				\item 1 01111010 10000000000000000000000
+			\end{enumerate}
+		
+		\item[2.7] The following numbers use the IEEE 32-bit floating-point format. What is the equivalent decimal value?
+			\begin{enumerate}[label=\alph*)] 
+				\item 1 10000011 11000000000000000000000
+				\item 0 01111110 10100000000000000000000
+				\item 0 10000000 00000000000000000000000
+			\end{enumerate}
+			
+			\answer
+			
+			\begin{enumerate}[label=\alph*)] 
+				\item -28
+				\item 0.1825
+				\item 2
+			\end{enumerate}
+			
+		\item[2.8.)] The text mentions that a 32-bit format can represent a maximum of $2^{32}$ different numbers. How many numbers can be represented in the IEEE 32-bit format?
+		
+		\answer
+		
+		The IEEE 32-bit can only represent $2^{32}$ distinct numbers as well.
+	\end{itemize}
+\end{homeworkProblem}
+
+\end{document}
