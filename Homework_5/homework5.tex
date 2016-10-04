@@ -185,7 +185,9 @@
 \pagebreak
 
 \begin{homeworkProblem}
-	The hypothetical machine of Figure 3.4 in the book also has two I/O instructions:\\
+
+	\begin{itemize}
+		\item[2.1)] The hypothetical machine of Figure 3.4 in the book also has two I/O instructions:
 	\begin{itemize}
 		\item 0011 = load AC from I/O
 		\item 0111 = store AC to I/O
@@ -197,17 +199,47 @@
 		\item Add contents of memory location 940.
 		\item Store AC to device 6.
 	\end{enumerate}
-	Assume that the next value retrieved from device 5 is 3 and that location 940 contains a value of 2.
-	
+	Assume that the next value retrieved from device 5 is 3 and that location 940 contains a value of 2.\\
+	\answer
 	\begin{itemize}
-		\item[2.1)] A combinational circuit is used to control a seven-segment display or decimal digits, as shown in Figure 11.35 in the book. The circuit has four inputs, which provide the four-bit code used in packed decimal representation $(0_10=000,\ ...\ , 9_10=10001)$. The seven outputs define which segments will be activated to display a given decimal digit. Note that some combinations of inputs and outputs are not needed.
+		\begin{table}[h]
+		\def\arraystretch{1.5}%
+		\item \hfil
+			\begin{tabular}{|c|c|}
+				\hline
+				Address & Memory \\
+				\hline
+				300 & 3 0 0 5 \\
+				\hline
+				301 & 5 9 4 0 \\
+				\hline
+				302 & 7 0 0 6 \\
+				\hline
+				... & ... \\
+				\hline
+				940 & 0 0 0 2 \\
+				\hline
+			\end{tabular}
+		\end{table}
+	\end{itemize}
+	The memory contains 300: 3005, 301: 5940, and 302:7006. This means the program instructions will have to do the following steps:
+	\begin{enumerate}
+		\item \(3005 \rightarrow IR\)
+		\item \(3 \rightarrow AC\)
+		\item \(5940 \rightarrow IR\)
+		\item \(3 + 2 = 5 \rightarrow AC\)
+		\item \(7006 \rightarrow IR\)
+		\item \(AC \rightarrow Device\ 6\)
+	\end{enumerate}
+	\pagebreak
+	\item[2.2)] A combinational circuit is used to control a seven-segment display or decimal digits, as shown in Figure 11.35 in the book. The circuit has four inputs, which provide the four-bit code used in packed decimal representation $(0_10=000,\ ...\ , 9_10=10001)$. The seven outputs define which segments will be activated to display a given decimal digit. Note that some combinations of inputs and outputs are not needed.
 		\begin{itemize}
 			\item[a.)] Develop a truth table for this circuit.
 			\item[b.)] Express the truth table in SOP form.
 			\item[c.)] Express the truth table in POS Form.
 		\end{itemize}
-		\item[2.2)] Implement the full adder of Figure 11.20 with just five gates. (Hint: Some of the gates are XOR gates.)
-		\item[2.3)] Consider Figure 11.20 from the book. Assume that each gate produces a delay of 10 ns. Thus, the sum output is valid after 20 ns and the carry output after 20 ns. What is the total add time for a 32-bit adder
+	\item[2.3)] Implement the full adder of Figure 11.20 with just five gates. (Hint: Some of the gates are XOR gates.)
+	\item[2.4)] Consider Figure 11.20 from the book. Assume that each gate produces a delay of 10 ns. Thus, the sum output is valid after 20 ns and the carry output after 20 ns. What is the total add time for a 32-bit adder
 		\begin{itemize}
 			\item[a.)] Implemented without carry lookahead, as in Figure 11.19 in the book.
 			\item[b.)] Implemented with carry lookahead using 8-bit adders, as in Figure 11.21 from the book.
