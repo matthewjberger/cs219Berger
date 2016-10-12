@@ -135,7 +135,7 @@
 
 \pagebreak
 
-\begin{homeworkProblem}
+\begin{homeworkProblem}[4]
 	\textbf{Review Questions}
 	\begin{itemize}
 		\item[4.1.)]\begin{enumerate}[label=\alph*)]
@@ -172,9 +172,9 @@
 		\end{enumerate}
 		\answer
 		\begin{enumerate}[label=\alph*)]
-			\item 0x0f45 is equivalent to 3909 in decimal. 3909 - 209 would give the value 3700 which is equivalent to the bit pattern 0000 1110 0111 0100. This is the new value of r5.
-			\item 
-			\item
+			\item 0x0f45 is equivalent to 3909 in decimal. $3909 - 209 = 3700$ which is equivalent to the bit pattern 1110 0111 0100. This is the new value of r5, left padded to 32 bits with leading zeroes.
+			\item RSB stands for reverse substraction. 0x045 is equivalent to 69 in decimal. $209 - 69 = 140$ which is equivalent to the bit pattern 1000 1100. This is the new value of r5, left padded to 32 bits with leading zeroes.
+			\item 0x0f45 is equivalent to 3909 in decimal. The instruction attempts to do the following: $209 - 3909 = -3700$. The decimal number $-3700$ takes 16 bytes (64 bits) to represent. The ARM registers are only 32-bit, so there would be overflow and the resulting value in r5 would be the bit pattern 0001 1000 1100, left padded to 32 bits by leading 1's.
 		\end{enumerate}
 		
 		\item[4.5.)]\begin{enumerate}[label=\alph*)]
@@ -184,9 +184,9 @@
 		\end{enumerate}
 		\answer
 		\begin{enumerate}[label=\alph*)]
-			\item 
-			\item 
-			\item
+			\item 0xf4 is equivalent to 1111 0100 in binary. When negated, it is equivalent to 0000 1011. So the value in r8 after this operation is 0000 1011, left padded to 32 bits by leading 1's (because of the negation).
+			\item 0x045 is equivalent to 69 in decimal. 0xFFFF is equivalent to 65535 in decimal. $65535 + 69 = 65604$, which is equivalent to the binary pattern 0001 0000 0000 0100 0100, left padded to 32 bits by leading zeroes. This value is the new value in register r3.
+			\item The form of the value that will be in register r6 after this instruction would be the current value in r6 plus one. r6 would be incremented by one after this instruction.
 		\end{enumerate}		
 	\end{itemize}
 \end{homeworkProblem}
