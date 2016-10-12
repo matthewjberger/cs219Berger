@@ -182,8 +182,8 @@
 mystart MOV r3, #127     ; load first value
 	MOV r7, #0xe45ad    ; load second value
 	MOV r8, #2_10101110010 ; load third value
-	ADD, r2, r3, r7 ; Form the sum of the first two values
-	ADD, r2, r2, r8 ; Add the third value
+	ADD r2, r3, r7 ; Form the sum of the first two values
+	ADD r2, r2, r8 ; Add the third value
 stop
 		
 ; The next 3 lines are used by ARM systems (e.g. Armulator, Evaluator-7T) to
