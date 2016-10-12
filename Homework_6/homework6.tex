@@ -1,0 +1,194 @@
+\documentclass[14pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{scrextend}
+\usepackage{graphicx}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+\newcommand{\hmwkClass}{CS 219}
+\newcommand{\hmwkTitle}{Homework\ \#5}
+\newcommand{\hmwkDueDate}{October 5th, 2016}
+\newcommand{\hmwkDueTime}{4:00pm}
+\newcommand{\hmwkClassInstructor}{Dr. Egbert}
+\newcommand{\hmwkAuthorName}{Matthew J. Berger}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at \hmwkDueTime}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution:}}
+
+% Alias for answers
+\newcommand{\answer}{\textbf{\large Answer: }}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+	\textbf{Review Questions}
+	\begin{itemize}
+		\item[4.1.)]\begin{enumerate}[label=\alph*)]
+			\item When ADD r3, r5, r12 is executed what happens to the value that was in r3?
+			\item What is the effect (result) of executing ADD r3, r5, r5?
+			\item What is the effect (result) of executing ADD r3, r3, r3?
+		\end{enumerate}
+		\answer
+		\begin{enumerate}[label=\alph*)]
+			\item 
+			\item 
+			\item
+		\end{enumerate}
+
+		\item[4.2.)]\begin{enumerate}[label=\alph*)]
+			\item When MOV r11, r2 is executed what happens to the value that was in r11?
+			\item What is the effect (result) of executing MOV r4, \#28?
+			\item What is the effect (result) of executing MOV r3, r3?
+		\end{enumerate}
+		\answer
+		\begin{enumerate}[label=\alph*)]
+			\item 
+			\item 
+			\item
+		\end{enumerate}	
+		
+		\item[4.3.)] Prepare a program to add together the numbers 127 decimal, 0xe45ad hexadecimal and 2\_10101110010 binary (ARM assembly language uses prefix 2\_ to indicate a number in base 2). Using a development system, assemble your program repeatedly correct it and assemble again until there are no errors. Test that the program behaves correctly. What is the total obtained?
+		\answer
+		
+		\item[4.4.)]\begin{enumerate}[label=\alph*)]
+			\item Assume that register r2 holds the value 0x0f45, what is the value in register r5 after the execution of the instruction SUB r5, r2, \#209?
+			\item Assume that the register r2 holds the value 0x045, what is the value in register r5 after the execution of the instruction RSB r5, r2, \#209?
+			\item What problems arise when register r2 holds 0x0f45 and the instruction RSB r5, r2, \#209 is executed? What will be the value in register r5 after the execution of this instruction?
+		\end{enumerate}
+		\answer
+		\begin{enumerate}[label=\alph*)]
+			\item 
+			\item 
+			\item
+		\end{enumerate}
+		
+		\item[4.5.)]\begin{enumerate}[label=\alph*)]
+			\item What is the value in register r8 after the execution of the instruction MVN r8, \#0xf4?
+			\item Assume that the register r3 holds the value 0x045 and r10 holds 0xffff. What is the value in register r3 after the execution of the instruction ADD r3, r3, r10?
+			\item Describe the form of the value that will be in register r6 after the execution of the instruction ADD r6, r6, \#1?
+		\end{enumerate}
+		\answer
+		\begin{enumerate}[label=\alph*)]
+			\item 
+			\item 
+			\item
+		\end{enumerate}		
+	\end{itemize}
+\end{homeworkProblem}
+
+\end{document}
