@@ -145,9 +145,9 @@
 		\end{enumerate}
 		\answer
 		\begin{enumerate}[label=\alph*)]
-			\item 
-			\item 
-			\item
+			\item The value that was in r3 becomes the sum of the values stored in r5 and r12.
+			\item The value stored in r5 is doubled and stored in r3. The original value of r5 remains unchanged.
+			\item The value stored in r3 is doubled in place. r3 now contains the doubled value.
 		\end{enumerate}
 
 		\item[4.2.)]\begin{enumerate}[label=\alph*)]
@@ -157,9 +157,9 @@
 		\end{enumerate}
 		\answer
 		\begin{enumerate}[label=\alph*)]
-			\item 
-			\item 
-			\item
+			\item The value that was in r11 is lost. The value in r11 is now the same as the value in r2.
+			\item The binary pattern equivalent to the decimal number 28 is copied into register r4.
+			\item The r3 register is updated with the value it already contains, thus the r3 registered is not changed and contains the same value after this operation.
 		\end{enumerate}	
 		
 		\item[4.3.)] Prepare a program to add together the numbers 127 decimal, 0xe45ad hexadecimal and 2\_10101110010 binary (ARM assembly language uses prefix 2\_ to indicate a number in base 2). Using a development system, assemble your program repeatedly correct it and assemble again until there are no errors. Test that the program behaves correctly. What is the total obtained?
@@ -172,7 +172,7 @@
 		\end{enumerate}
 		\answer
 		\begin{enumerate}[label=\alph*)]
-			\item 
+			\item 0x0f45 is equivalent to 3909 in decimal. 3909 - 209 would give the value 3700 which is equivalent to the bit pattern 0000 1110 0111 0100. This is the new value of r5.
 			\item 
 			\item
 		\end{enumerate}
