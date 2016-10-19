@@ -185,21 +185,31 @@
 
 \begin{homeworkProblem}[13]
 	\begin{itemize}
-		\item[13.1)] Given the following memory values and a one-address machine with an accumulator, what values do the following instructions load into the accumulator?
-			Note: Word 20 contains 40.\\
+		\item[13.1)] Given the following memory values and a one-address machine with an accumulator, what values do the following instructions load into the accumulator?\\
+		
+			Word 20 contains 40.\\
 			Word 30 contains 50.\\
 			Word 40 contains 60.\\
-			Word 50 contains 70.	
-		\begin{itemize}
+			Word 50 contains 70.
+		\begin{enumerate}[label=\alph*.)]
 			\item LOAD IMMEDIATE 20
 			\item LOAD DIRECT 20
 			\item LOAD INDIRECT 20
 			\item LOAD IMMEDIATE 30
 			\item LOAD DIRECT 30
 			\item LOAD INDIRECT 30						
-		\end{itemize}
+		\end{enumerate}
 		
 		\solution
+		
+		\begin{enumerate}[label=\alph*.)]
+			\item 20
+			\item 40
+			\item 60
+			\item 30
+			\item 50
+			\item 70
+		\end{enumerate}
 		
 		\item[13.3)] An address field in an instruction contains decimal value 14. Where is the corresponding operand located for:
 		\begin{itemize}
@@ -213,16 +223,20 @@
 		\solution
 		
 		\begin{itemize}
-			\item 
-			\item 
-			\item 
-			\item 
-			\item 
+			\item The address field
+			\item Memory location 14
+			\item The memory location whose address is in the memory location 14
+			\item Register 14
+			\item The memory location whose address is in register 14
 		\end{itemize}
+		
+		\pagebreak
 		
 		\item[13.5)] A PC-relative mode branch instruction is 3-bytes long. The address of the instruction, in decimal, is 256028. Determine the branch target address if the signed displacement in the instruction is -31.
 		
-		\solution:
+		\solution
+		
+		The next instruction is at \underline{256031} and the branch is \underline{-31}, so the next address is $256031-31=\underline{\textbf{256000}}$.
 		
 		\item[13.7)] How many times does the processor need to refer to memory when it fetches and executes an indirect-address-mode instruction is:
 			\begin{enumerate}[label=\alph*)]
@@ -232,13 +246,15 @@
 			
 		\solution
 			\begin{enumerate}[label=\alph*)]
-				\item
-				\item
+				\item Fetch instruction, Fetch effective address, Fetch operand. \underline{\textbf{3 memory references}}
+				\item Fetch instruction, Fetch effective address and transfer to PC. \underline{\textbf{2 memory references}}
 			\end{enumerate}
 			
 		\item[13.11)] Consider a processor that includes a base with indexing addressing mode. Suppose an instruction is encountered that employs this addressing mode and specifies a displacement of 1970, in decimal. Currently the base and index register contain the decimal numbers 48,022 and 8, respectively. What is the address of the operand?
 		
 		\solution
+		
+		Base + index + signed displacement = $48,022 + 8 + 1970 = 50,000_{10} =$ \underline{\textbf{0xC350}}
 	\end{itemize}
 \end{homeworkProblem}
 
