@@ -1,0 +1,245 @@
+\documentclass[14pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{scrextend}
+\usepackage{graphicx}
+
+\usetikzlibrary{automata,positioning}
+
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+\newcommand{\hmwkClass}{CS 219}
+\newcommand{\hmwkTitle}{Homework\ \#7}
+\newcommand{\hmwkDueDate}{October 19th, 2016}
+\newcommand{\hmwkDueTime}{4:00pm}
+\newcommand{\hmwkClassInstructor}{Dr. Egbert}
+\newcommand{\hmwkAuthorName}{Matthew J. Berger}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at \hmwkDueTime}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution:}}
+
+% Alias for answers
+\newcommand{\answer}{\textbf{\large Answer: }}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}[12]
+	\begin{itemize}
+		\item[12.6)] Compare zero-, one-, two-, and three-address machines by writing programs to compute $X=\frac{(A+BXC)}{(D-EXF)}$ for each of the four machines. The instructions available for use are as follows:
+		\item[]\begin{table}[h]\hfil
+			\def\arraystretch{1.5}%
+			\begin{tabular}{|l|l|l|l|}
+				\hline
+				0 Address & 1 Address & 2 Address & 3 Address \\				
+				\hline
+				PUSH M & LOAD M  & MOVE(X $\leftarrow$ Y)            & MOVE(X $\leftarrow$ Y) \\
+				\hline
+				POP M  & STORE M & ADD(X $\leftarrow$ X + Y)         & ADD(X $\leftarrow$ Y + Z) \\		
+				\hline				
+				ADD    & ADD M   & SUB(X $\leftarrow$ X - Y)         & ADD(X $\leftarrow$ Y - Z) \\		
+				\hline								
+				SUB    & SUB M   & MUL(X $\leftarrow$ X $\times$ Y ) & MUL(X $\leftarrow$ Y $\times$ Z) \\
+				\hline
+				DIV    & DIV M   & & \\
+				\hline
+			\end{tabular}
+		\end{table}
+		
+		\solution
+		
+		\pagebreak
+		
+		\item [12.7)] Consider a hypothetical computer with an instruction set of only two n-bit instructions. The first bit specifies the opcode, and the remaining bits specify one of the 2n-1 n-bit words of main memory. The two instructions are as follows:
+		\begin{itemize}
+			\item SUBS X = Subtract the contents of location X from the accumulator, and store the result in location X and the accumulator.
+			\item JUMP X = Place address X in the program counter.		
+		\end{itemize}
+		A word in main memory may contain either an instruction or a binary number in twos complement notation. Demonstrate that this instruction repertoire is reasonably complete by specifying how the following operations can be programmed. Pick any two from a.) to e.).
+		\begin{enumerate}[label=\alph*)]
+			\item Data transfer: Location X to accumulator, accumulator to location X.
+			\item Addition: Add contents of location X to accumulator.
+			\item Conditional branch.
+			\item Logical OR.
+			\item I/O Operations.
+		\end{enumerate}
+		
+		\solution
+		
+	\end{itemize}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}[13]
+	\begin{itemize}
+		\item[13.1)] Given the following memory values and a one-address machine with an accumulator, what values do the following instructions load into the accumulator?
+			Note: Word 20 contains 40.\\
+			Word 30 contains 50.\\
+			Word 40 contains 60.\\
+			Word 50 contains 70.	
+		\begin{itemize}
+			\item LOAD IMMEDIATE 20
+			\item LOAD DIRECT 20
+			\item LOAD INDIRECT 20
+			\item LOAD IMMEDIATE 30
+			\item LOAD DIRECT 30
+			\item LOAD INDIRECT 30						
+		\end{itemize}
+		
+		\solution
+		
+		\item[13.3)] An address field in an instruction contains decimal value 14. Where is the corresponding operand located for:
+		\begin{itemize}
+			\item immediate addressing?
+			\item direct addressing?
+			\item indirect addressing?
+			\item register addressing?
+			\item register indirect addressing?		
+		\end{itemize}
+		
+		\solution
+		
+		\begin{itemize}
+			\item 
+			\item 
+			\item 
+			\item 
+			\item 
+		\end{itemize}
+		
+		\item[13.5)] A PC-relative mode branch instruction is 3-bytes long. The address of the instruction, in decimal, is 256028. Determine the branch target address if the signed displacement in the instruction is -31.
+		
+		\solution:
+		
+		\item[13.7)] How many times does the processor need to refer to memory when it fetches and executes an indirect-address-mode instruction is:
+			\begin{enumerate}[label=\alph*)]
+				\item A computation requiring a single operand
+				\item A branch
+			\end{enumerate}
+			
+		\solution
+			\begin{enumerate}[label=\alph*)]
+				\item
+				\item
+			\end{enumerate}
+			
+		\item[13.11)] Consider a processor that includes a base with indexing addressing mode. Suppose an instruction is encountered that employs this addressing mode and specifies a displacement of 1970, in decimal. Currently the base and index register contain the decimal numbers 48,022 and 8, respectively. What is the address of the operand?
+		
+		\solution
+	\end{itemize}
+\end{homeworkProblem}
+
+\end{document}
