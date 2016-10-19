@@ -168,16 +168,16 @@
 				\hline
 				0 Address & 1 Address & 2 Address & 3 Address \\
 				\hline
-				PUSH B & & & \\				
-				PUSH C & & & \\
-				MUL    & & & \\
-				PUSH A & & & \\
-				ADD    & & & \\
-				PUSH D & & & \\
-				PUSH E & & & \\
-				PUSH F & & & \\
-				MUL    & & & \\
-				SUB    & & & \\
+				PUSH B & LOAD  F & MUL B,C & MUL B,C \\				
+				PUSH C & MUL   E & ADD A,B & ADD X,A,B \\
+				MUL    & STORE X & MUL E,F & MUL E,F \\
+				PUSH A & LOAD  D & SUB D,E & SUB D,E \\
+				ADD    & SUB   X & DIV A,D & DIV X,D \\
+				PUSH D & STORE X & & \\
+				PUSH E & LOAD  C & & \\
+				PUSH F & MUL   B & & \\
+				MUL    & ADD   A & & \\
+				SUB    & DIV   X & & \\
 				DIV    & & & \\
 				POP  X & & & \\
 				
@@ -190,8 +190,8 @@
 		
 		\item [12.7)] Consider a hypothetical computer with an instruction set of only two n-bit instructions. The first bit specifies the opcode, and the remaining bits specify one of the 2n-1 n-bit words of main memory. The two instructions are as follows:
 		\begin{itemize}
-			\item SUBS X = Subtract the contents of location X from the accumulator, and store the result in location X and the accumulator.
-			\item JUMP X = Place address X in the program counter.		
+			\item \textbf{SUBS X} = Subtract the contents of location X from the accumulator, and store the result in location X and the accumulator.
+			\item \textbf{JUMP X} = Place address X in the program counter.		
 		\end{itemize}
 		A word in main memory may contain either an instruction or a binary number in twos complement notation. Demonstrate that this instruction repertoire is reasonably complete by specifying how the following operations can be programmed. Pick any two from a.) to e.).
 		\begin{enumerate}[label=\alph*)]
