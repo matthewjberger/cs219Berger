@@ -138,7 +138,7 @@
 
 \begin{homeworkProblem}[12]
 	\begin{itemize}
-		\item[12.6)] Compare zero-, one-, two-, and three-address machines by writing programs to compute $X=\frac{(A+BXC)}{(D-EXF)}$ for each of the four machines. The instructions available for use are as follows:
+		\item[12.6)] Compare zero-, one-, two-, and three-address machines by writing programs to compute $X=\frac{(A+B \times C)}{(D-E \times F)}$ for each of the four machines. The instructions available for use are as follows:
 		\item[]\begin{table}[h]\hfil
 			\def\arraystretch{1.5}%
 			\begin{tabular}{|l|l|l|l|}
@@ -153,12 +153,38 @@
 				\hline								
 				SUB    & SUB M   & MUL(X $\leftarrow$ X $\times$ Y ) & MUL(X $\leftarrow$ Y $\times$ Z) \\
 				\hline
+				MUL    & MUL M   & DIV(X $\leftarrow \frac{X}{Y})$   & DIV(X $\leftarrow \frac{Y}{Z}$) \\
+				\hline
 				DIV    & DIV M   & & \\
 				\hline
 			\end{tabular}
 		\end{table}
 		
 		\solution
+		
+		\item[]\begin{table}[h]\hfil
+			\def\arraystretch{1.5}%
+			\begin{tabular}{|l|l|l|l|}
+				\hline
+				0 Address & 1 Address & 2 Address & 3 Address \\
+				\hline
+				PUSH B & & & \\				
+				PUSH C & & & \\
+				MUL    & & & \\
+				PUSH A & & & \\
+				ADD    & & & \\
+				PUSH D & & & \\
+				PUSH E & & & \\
+				PUSH F & & & \\
+				MUL    & & & \\
+				SUB    & & & \\
+				DIV    & & & \\
+				POP  X & & & \\
+				
+				\hline
+
+			\end{tabular}
+		\end{table}
 		
 		\pagebreak
 		
@@ -178,10 +204,48 @@
 		
 		\solution
 		
+		\begin{itemize}
+			\item[a.)] \underline{\textbf{Data Transfer:}} Location X to accumulator, accumulator to location X. Y,Z are used as scratch space left at zero. X is moved to the accumulator using:
+			\begin{enumerate}[label=\arabic*.)]
+				\item subs Z
+				\item subs Z
+				\item subs X
+				\item subs Z
+				\item subs Z
+				\item subs X
+			\end{enumerate}
+		    and the accumulator to X using:
+			\begin{enumerate}[label=\arabic*.)]
+				\item subs Z
+				\item subs X
+				\item subs X
+				\item subs Z
+				\item subs X
+				\item subs Z
+				\item subs Z
+				\item subs X
+			\end{enumerate}
+			\pagebreak
+			\item[b.)] \underline{\textbf{Addition:}} Add contents of location X to accumulator.
+			Addition will be equivalent to the negative accumulator minus X.
+			\begin{enumerate}[label=\arabic*.)]
+				\item subs Y
+				\item subs Z
+				\item subs Z
+				\item subs X
+				\item subs Y
+				\item subs Z
+				\item subs Z
+				\item subs X
+				\item subs Z
+				\item subs Z
+				\item subs Y
+			\end{enumerate}
+			
+		\end{itemize}
+		
 	\end{itemize}
 \end{homeworkProblem}
-
-\pagebreak
 
 \begin{homeworkProblem}[13]
 	\begin{itemize}
@@ -211,6 +275,8 @@
 			\item 70
 		\end{enumerate}
 		
+		\pagebreak
+		
 		\item[13.3)] An address field in an instruction contains decimal value 14. Where is the corresponding operand located for:
 		\begin{itemize}
 			\item immediate addressing?
@@ -229,8 +295,6 @@
 			\item Register 14
 			\item The memory location whose address is in register 14
 		\end{itemize}
-		
-		\pagebreak
 		
 		\item[13.5)] A PC-relative mode branch instruction is 3-bytes long. The address of the instruction, in decimal, is 256028. Determine the branch target address if the signed displacement in the instruction is -31.
 		
