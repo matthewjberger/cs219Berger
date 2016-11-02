@@ -145,7 +145,7 @@
 \begin{homeworkProblem}
 
 1.) Write a program called SUB64 to subtract the 64-bit integer in memory locations 0x40001000 and 0x40001004 from the 64-bit
-integer in 0x40001010H and 0x40001014. Store the result in memory location 0x40001020 and 0x40001024.\\
+integer in 0x40001010 and 0x40001014. Store the result in memory location 0x40001020 and 0x40001024.\\
 
 \solution
 		
@@ -166,17 +166,20 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-; begin initialize data
-		LDR r4,= 0x25		;set first operand = 0x100
-		LDR r5,= 0x50		;set second operand to 0x50
-		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
-; end initialize data
-		LDRB r0,[r3,#0]		;get first operand
-		LDRB r1,[r3,#1]		;get second operand
-		ADD	r2,r0,r1		;form the sum of the two values
-		STRB r2,[r3,#2]		;save sum
-; 		STRB r2,[r3,#3]		;save sum
+
+SUB64 ldr  r0, =0x40001000  ; upper 32 bits
+      ldr  r1, [r0]
+      ldr  r0, =0x40001004  ; lower 32 bits
+      ldr  r2, [r0]
+      ldr  r3, =0x40001010  ; upper 32 bits
+      ldr  r3, [r3]
+      ldr  r4, =0x40001014  ; lower 32 bits
+      ldr  r4, [r4]
+      subs r5, r3, r0       ; subtract lower bits, could result in carry
+      subc r6, r2, r1       ; subtract upper bits with respect for carry
+      str  r6, =0x40001010  ; store upper 32 bits of result
+      str  r5, =0x40001014  ; store lower 32 bits of result
+
 ;************************************************************************
 ;
 ; an infinite loop because the processor continues to fetch instructions
@@ -210,27 +213,36 @@ stop	BAL	stop
 	EXPORT	__main
 __main	
 	ENTRY
-mystart	LDR r3,= 0x40001000	;point to RAM location
+mystart	ldr r3,= 0x40001000	;point to RAM location
 ;
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-; begin initialize data
-		LDR r4,= 0x25		;set first operand = 0x100
-		LDR r5,= 0x50		;set second operand to 0x50
-		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
-; end initialize data
-		LDRB r0,[r3,#0]		;get first operand
-		LDRB r1,[r3,#1]		;get second operand
-		ADD	r2,r0,r1		;form the sum of the two values
-		STRB r2,[r3,#2]		;save sum
-; 		STRB r2,[r3,#3]		;save sum
+COMBINE ldr r0, =0x40001000                 
+        ldr r0,[r0]         ; load the value in r0 into r0
+        mov r0,r0,lsl#28    ; left shift until only the nibble is left
+        mov r0,r0,lsr#16    ; right shift into a new set of 4 bits        
+        ldr r1, =0x40001001 ; load the memory location into r1
+        ldr r1,[r1]         ; load the value in r1 into r1
+        mov r1,r1,lsl#28    ; left shift unitl only the nibble is left
+        mov r1,r1,lsr#20    ; right shift into a new set of 4 bits
+        ldr r2, =0x40001002 ; load the memory location into r2                                                   
+        ldr r2,[r2]         ; load the value in r2 into r2
+        mov r2,r2,lsl#28    ; left shift until only the nibble is left
+        mov r2,r2,lsr#24    ; right shift into a new set of 4 bits
+        ldr r3, =0x40001003 ; load the memory location into r3                                                          
+        ldr r3,[r3]         ; load the value in r3 into r3
+        mov r3,r3,lsl#28    ; left shift until only the nibble is left
+        mov r3,r3,lsr#28    ; right shift into a new set of 4 bits    
+        add r4,r3,r2        ; add two groups of nibbles together
+        add r5,r1,r0        ; add two groups of nibbles together
+        add r6,r5,r4        ; add the final two groups of nibbles together      
+        ldr r0, =0x40001004
+        str r6, [r0]
 ;************************************************************************
-;
 ; an infinite loop because the processor continues to fetch instructions
 stop	BAL	stop
-	END			;END directive to show nothing more in file
+	END		    ;END directive to show nothing more in file
 \end{lstlisting} \\
 \hline
 \end{tabular}
@@ -263,22 +275,24 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-; begin initialize data
-		LDR r4,= 0x25		;set first operand = 0x100
-		LDR r5,= 0x50		;set second operand to 0x50
-		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
-; end initialize data
-		LDRB r0,[r3,#0]		;get first operand
-		LDRB r1,[r3,#1]		;get second operand
-		ADD	r2,r0,r1		;form the sum of the two values
-		STRB r2,[r3,#2]		;save sum
-; 		STRB r2,[r3,#3]		;save sum
+FIND ldr r0, =0x40001000  ; load a memory location into register 0
+     ldr r0, [r0]         ; load the value from memory into register 0
+     ldr r1, =0x40001000  ; load a memory location into register 0
+     ldr r1, [r1]         ; load the value from memory into register 0
+     cmp r0, r1           ; compare the two registers
+     bgt big              ; branch if greater than
+     ldr r0, =0x40001002  ; load the memory to store
+     str r1, [r0]         ; store r1
+     bal stop             ; stop the program
+ 
+big  ldr r1, =0x40001002  ; load the memory to store
+     str r0, [r1]         ; store r0
+         
 ;************************************************************************
 ;
 ; an infinite loop because the processor continues to fetch instructions
 stop	BAL	stop
-	END			;END directive to show nothing more in file
+	END		  ;END directive to show nothing more in file
 \end{lstlisting} \\
 \hline
 \end{tabular}
@@ -311,22 +325,18 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-; begin initialize data
-		LDR r4,= 0x25		;set first operand = 0x100
-		LDR r5,= 0x50		;set second operand to 0x50
-		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
-; end initialize data
-		LDRB r0,[r3,#0]		;get first operand
-		LDRB r1,[r3,#1]		;get second operand
-		ADD	r2,r0,r1		;form the sum of the two values
-		STRB r2,[r3,#2]		;save sum
-; 		STRB r2,[r3,#3]		;save sum
+LSHIFT ldr  r0, =0x40001000 ; load number to shift by
+       ldr  r0, [r0]        ; load number from value
+       ldr  r1, =0x40001004 ; load number to shift
+       ldrh r1, [r1]        ; load number from value
+       mov  r1,r1, lsl r0   ; start shifting
+       ldr  r0, =0x40001008 ; load memory location
+       strh r1, [r0]
 ;************************************************************************
 ;
 ; an infinite loop because the processor continues to fetch instructions
 stop	BAL	stop
-	END			;END directive to show nothing more in file
+	END		    ;END directive to show nothing more in file
 \end{lstlisting} \\
 \hline
 \end{tabular}
@@ -359,22 +369,24 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-; begin initialize data
-		LDR r4,= 0x25		;set first operand = 0x100
-		LDR r5,= 0x50		;set second operand to 0x50
-		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
-; end initialize data
-		LDRB r0,[r3,#0]		;get first operand
-		LDRB r1,[r3,#1]		;get second operand
-		ADD	r2,r0,r1		;form the sum of the two values
-		STRB r2,[r3,#2]		;save sum
-; 		STRB r2,[r3,#3]		;save sum
+FIND8   ldr  r0, =0x40001000 ; load memory location
+        ldrb r1, [r0]        ; load byte into r1                                                   
+        ldr  r0, =0x40001004 ; load memory l ocation
+        ldr  r2, =0          ; initialize to 0 
+loopst  ldrb r3, [r0,+r1]    ; load byte into r3 using offset of r0 and r1
+        cmp  r2,r3           ; compare values
+        bhi  f8cpl           ; branch if high
+        mov  r2,r3           ; move r3 into r2
+  
+f8cpl   adds r1,#-1          ; decrement by 1
+        bpl  loopst          ; branch if positive or equal to 0
+        ldr  r0, =0x40001002 ; load memory location
+        strb r2, [r0]        ; store byte
 ;************************************************************************
 ;
 ; an infinite loop because the processor continues to fetch instructions
 stop	BAL	stop
-	END			;END directive to show nothing more in file
+	END		    ;END directive to show nothing more in file
 \end{lstlisting} \\
 \hline
 \end{tabular}
@@ -407,17 +419,22 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-; begin initialize data
-		LDR r4,= 0x25		;set first operand = 0x100
-		LDR r5,= 0x50		;set second operand to 0x50
-		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
-; end initialize data
-		LDRB r0,[r3,#0]		;get first operand
-		LDRB r1,[r3,#1]		;get second operand
-		ADD	r2,r0,r1		;form the sum of the two values
-		STRB r2,[r3,#2]		;save sum
-; 		STRB r2,[r3,#3]		;save sum
+
+FIND32  ldr r0, =0x40001010 ; load memory location
+        ldrh r1, [r0]       ; load byte into r1
+                                                            
+        ldr r0, =0x4000100H ; load memory location
+        ldr r2, =0          ; initialize to 0 
+    
+loopst  ldrh r3, [r0,+r1]   ; load byte into r3 using offset of r0 and r1
+        cmp r2,r3           ; compare values
+        bhi f8cpl           ; branch if high
+        mov r2,r3           ; move r3 into r2
+    
+f8cpl   adds r1,#-1         ; decrement by 1
+        bpl loopst          ; branch if positive or equal to 0
+        ldr r0, =0x40001004 ; load memory location     
+        strh r2, [r0]       ; store byte
 ;************************************************************************
 ;
 ; an infinite loop because the processor continues to fetch instructions
@@ -460,7 +477,7 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 		LDR r4,= 0x25		;set first operand = 0x100
 		LDR r5,= 0x50		;set second operand to 0x50
 		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
+		STRB r5,[r3,#1]		;write second operand to memory
 ; end initialize data
 		LDRB r0,[r3,#0]		;get first operand
 		LDRB r1,[r3,#1]		;get second operand
@@ -505,17 +522,22 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-; begin initialize data
-		LDR r4,= 0x25		;set first operand = 0x100
-		LDR r5,= 0x50		;set second operand to 0x50
-		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
-; end initialize data
-		LDRB r0,[r3,#0]		;get first operand
-		LDRB r1,[r3,#1]		;get second operand
-		ADD	r2,r0,r1		;form the sum of the two values
-		STRB r2,[r3,#2]		;save sum
-; 		STRB r2,[r3,#3]		;save sum
+COUNT ldr r0,=0x40001000 ;set pointer to key     
+      ldr r1,[r0]        ;store value of r0 into r1
+      ldr r0,=040001004  ;load memory location
+      ldr r2,=0          ;initialize to 0
+      ldr r3,=0          ;initialize to 0 again   
+      
+again ldr r4,[r0,+r2]    ;load r4 with an offset
+      cmp r4, r1         ;compare the numbers
+      bne goup           ;branch if not equal
+      add r3, r3, #1     ;increment and add 
+                                                               
+goup  cmp r4, #0         ;compare r4 with "null"
+      bpl again          ;if greater than 0, go again
+      
+      ldr r0,=0x40001002 ;load memory location
+      str r3,[r0]        ;store in r3
 ;************************************************************************
 ;
 ; an infinite loop because the processor continues to fetch instructions
@@ -557,7 +579,7 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 		LDR r4,= 0x25		;set first operand = 0x100
 		LDR r5,= 0x50		;set second operand to 0x50
 		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
+		STRB r5,[r3,#1]		;write second operand to memory
 ; end initialize data
 		LDRB r0,[r3,#0]		;get first operand
 		LDRB r1,[r3,#1]		;get second operand
@@ -606,7 +628,7 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 		LDR r4,= 0x25		;set first operand = 0x100
 		LDR r5,= 0x50		;set second operand to 0x50
 		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
+		STRB r5,[r3,#1]		;write second operand to memory
 ; end initialize data
 		LDRB r0,[r3,#0]		;get first operand
 		LDRB r1,[r3,#1]		;get second operand
@@ -654,7 +676,7 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 		LDR r4,= 0x25		;set first operand = 0x100
 		LDR r5,= 0x50		;set second operand to 0x50
 		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
+		STRB r5,[r3,#1]		;write second operand to memory
 ; end initialize data
 		LDRB r0,[r3,#0]		;get first operand
 		LDRB r1,[r3,#1]		;get second operand
@@ -702,7 +724,7 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 		LDR r4,= 0x25		;set first operand = 0x100
 		LDR r5,= 0x50		;set second operand to 0x50
 		STRB r4,[r3,#0]		;write first operand to memory
-		STRB r5,[r3,#1]		;write second operqand to memory
+		STRB r5,[r3,#1]		;write second operand to memory
 ; end initialize data
 		LDRB r0,[r3,#0]		;get first operand
 		LDRB r1,[r3,#1]		;get second operand
