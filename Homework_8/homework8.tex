@@ -148,7 +148,7 @@
 integer in 0x40001010 and 0x40001014. Store the result in memory location 0x40001020 and 0x40001024.\\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -200,7 +200,7 @@ stop	BAL	stop
 0x40001000. Store the result as 16-bits in memory location 0x40001004. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -218,25 +218,25 @@ mystart	ldr r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-COMBINE ldr r0, =0x40001000                 
+COMBINE ldr r0, =0x40001000
         ldr r0,[r0]         ; load the value in r0 into r0
         mov r0,r0,lsl#28    ; left shift until only the nibble is left
-        mov r0,r0,lsr#16    ; right shift into a new set of 4 bits        
+        mov r0,r0,lsr#16    ; right shift into a new set of 4 bits
         ldr r1, =0x40001001 ; load the memory location into r1
         ldr r1,[r1]         ; load the value in r1 into r1
         mov r1,r1,lsl#28    ; left shift unitl only the nibble is left
         mov r1,r1,lsr#20    ; right shift into a new set of 4 bits
-        ldr r2, =0x40001002 ; load the memory location into r2                                                   
+        ldr r2, =0x40001002 ; load the memory location into r2
         ldr r2,[r2]         ; load the value in r2 into r2
         mov r2,r2,lsl#28    ; left shift until only the nibble is left
         mov r2,r2,lsr#24    ; right shift into a new set of 4 bits
-        ldr r3, =0x40001003 ; load the memory location into r3                                                          
+        ldr r3, =0x40001003 ; load the memory location into r3
         ldr r3,[r3]         ; load the value in r3 into r3
         mov r3,r3,lsl#28    ; left shift until only the nibble is left
-        mov r3,r3,lsr#28    ; right shift into a new set of 4 bits    
+        mov r3,r3,lsr#28    ; right shift into a new set of 4 bits
         add r4,r3,r2        ; add two groups of nibbles together
         add r5,r1,r0        ; add two groups of nibbles together
-        add r6,r5,r4        ; add the final two groups of nibbles together      
+        add r6,r5,r4        ; add the final two groups of nibbles together
         ldr r0, =0x40001004
         str r6, [r0]
 ;************************************************************************
@@ -257,7 +257,7 @@ stop	BAL	stop
 and 0x40001001. Store the larger of the two in memory location 0x40001002. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -284,7 +284,7 @@ FIND ldr r0, =0x40001000  ; load a memory location into register 0
      ldr r0, =0x40001002  ; load the memory to store
      str r1, [r0]         ; store r1
      bal stop             ; stop the program
- 
+
 big  ldr r1, =0x40001002  ; load the memory to store
      str r0, [r1]         ; store r0
          
@@ -307,7 +307,7 @@ stop	BAL	stop
 shift count stored in memory location 0x40001004 and store the results at memory address 0x40001008. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -347,11 +347,11 @@ stop	BAL	stop
 
 \begin{homeworkProblem}
 
-5. Write a program called FIND8 to find the largest unsigned 8-bit word in a list. The list begins at address 0x40001004. The length of
+5.) Write a program called FIND8 to find the largest unsigned 8-bit word in a list. The list begins at address 0x40001004. The length of
 the list is stored in an 8-bit variable at address 0x40001000. Store the largest entry in memory location 0x40001002. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -370,14 +370,14 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
 FIND8   ldr  r0, =0x40001000 ; load memory location
-        ldrb r1, [r0]        ; load byte into r1                                                   
+        ldrb r1, [r0]        ; load byte into r1
         ldr  r0, =0x40001004 ; load memory l ocation
-        ldr  r2, =0          ; initialize to 0 
+        ldr  r2, =0          ; initialize to 0
 loopst  ldrb r3, [r0,+r1]    ; load byte into r3 using offset of r0 and r1
         cmp  r2,r3           ; compare values
         bhi  f8cpl           ; branch if high
         mov  r2,r3           ; move r3 into r2
-  
+
 f8cpl   adds r1,#-1          ; decrement by 1
         bpl  loopst          ; branch if positive or equal to 0
         ldr  r0, =0x40001002 ; load memory location
@@ -401,7 +401,7 @@ stop	BAL	stop
 of the list is stored in an 8-bit variable at address 40001000H. Store the largest entry in memory location 0x40001004. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -422,18 +422,18 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 
 FIND32  ldr r0, =0x40001010 ; load memory location
         ldrh r1, [r0]       ; load byte into r1
-                                                            
+
         ldr r0, =0x4000100H ; load memory location
-        ldr r2, =0          ; initialize to 0 
-    
+        ldr r2, =0          ; initialize to 0
+
 loopst  ldrh r3, [r0,+r1]   ; load byte into r3 using offset of r0 and r1
         cmp r2,r3           ; compare values
         bhi f8cpl           ; branch if high
         mov r2,r3           ; move r3 into r2
-    
+
 f8cpl   adds r1,#-1         ; decrement by 1
         bpl loopst          ; branch if positive or equal to 0
-        ldr r0, =0x40001004 ; load memory location     
+        ldr r0, =0x40001004 ; load memory location
         strh r2, [r0]       ; store byte
 ;************************************************************************
 ;
@@ -455,7 +455,7 @@ list is stored in a 16-bit variable at addresses 0x40001002. The list begins at 
 0x40001000 and the largest byte at address 0x40001001. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -504,7 +504,7 @@ KEY is stored in memory location 0x40001000. The string is stored in memory begi
 count in memory location 0x40001004. (Assume the maximum count is 255.) \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -522,20 +522,20 @@ mystart	LDR r3,= 0x40001000	;point to RAM location
 ;************************************************************************
 ; For other programs (projects) replace the code below with new code.
 ; Leave the code outside the ******* lines as is for all programs.
-COUNT ldr r0,=0x40001000 ;set pointer to key     
+COUNT ldr r0,=0x40001000 ;set pointer to key
       ldr r1,[r0]        ;store value of r0 into r1
       ldr r0,=040001004  ;load memory location
       ldr r2,=0          ;initialize to 0
-      ldr r3,=0          ;initialize to 0 again   
-      
+      ldr r3,=0          ;initialize to 0 again
+
 again ldr r4,[r0,+r2]    ;load r4 with an offset
       cmp r4, r1         ;compare the numbers
       bne goup           ;branch if not equal
-      add r3, r3, #1     ;increment and add 
-                                                               
+      add r3, r3, #1     ;increment and add
+
 goup  cmp r4, #0         ;compare r4 with "null"
       bpl again          ;if greater than 0, go again
-      
+
       ldr r0,=0x40001002 ;load memory location
       str r3,[r0]        ;store in r3
 ;************************************************************************
@@ -557,7 +557,7 @@ stop	BAL	stop
 location 0x40001004. Store the 8-bit counter in memory location 0x40001000 \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -606,7 +606,7 @@ string to the subroutine in register R0. Return the length, excluding the null b
 to the calling program unchanged. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -654,7 +654,7 @@ stop	BAL	stop
 spaces. Pass the 32-bit address of the string to the subroutine in register R0. \\
 
 \solution
-		
+
 \begin{table}[h]
 \begin{tabular}{|c|}
 \hline
@@ -740,6 +740,6 @@ stop	BAL	stop
 \hline
 \end{tabular}
 \end{table}
-\end{homeworkProblem}	
+\end{homeworkProblem}
 
 \end{document}
