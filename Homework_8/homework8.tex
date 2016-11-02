@@ -1,0 +1,723 @@
+\documentclass[14pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{scrextend}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Assembly language code listing
+%
+\usepackage{lstlangarm}
+\lstset{language=[ARM]Assembler}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+\newcommand{\hmwkClass}{CS 219}
+\newcommand{\hmwkTitle}{Homework\ \#8}
+\newcommand{\hmwkDueDate}{November 2nd, 2016}
+\newcommand{\hmwkDueTime}{4:00pm}
+\newcommand{\hmwkClassInstructor}{Dr. Egbert}
+\newcommand{\hmwkAuthorName}{Matthew J. Berger}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at \hmwkDueTime}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution:}}
+
+% Alias for answers
+\newcommand{\answer}{\textbf{\large Answer: }}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+1.) Write a program called SUB64 to subtract the 64-bit integer in memory locations 0x40001000 and 0x40001004 from the 64-bit
+integer in 0x40001010H and 0x40001014. Store the result in memory location 0x40001020 and 0x40001024.\\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+2.) Write a program called COMBINE that combines the low-order nibbles of the four bytes in memory locations 0x40001000 to
+0x40001003 into a single 16-bit word. The nibbles should be ordered low-to-high in the result beginning with the data from location
+0x40001000. Store the result as 16-bits in memory location 0x40001004. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+3.) Write a program called FIND to find the larger of two signed bytes. Assume the two bytes are in memory locations 0x40001000
+and 0x40001001. Store the larger of the two in memory location 0x40001002. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+4.) Write a program called LSHIFT to shift logically the 32-bit contents of memory location 0x40001000 left according to the 8-bit
+shift count stored in memory location 0x40001004 and store the results at memory address 0x40001008. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+5. Write a program called FIND8 to find the largest unsigned 8-bit word in a list. The list begins at address 0x40001004. The length of
+the list is stored in an 8-bit variable at address 0x40001000. Store the largest entry in memory location 0x40001002. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+6.) Write a program called FIND32 to find the largest unsigned 32-bit word in a list. The list begins at address 0x40001010. The length
+of the list is stored in an 8-bit variable at address 40001000H. Store the largest entry in memory location 0x40001004. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+7.) Write a program called SCAN to scan a list of unsigned bytes and find the smallest and largest entries in the list. The length of the
+list is stored in a 16-bit variable at addresses 0x40001002. The list begins at address 0x40001010. Store the smallest byte at address
+0x40001000 and the largest byte at address 0x40001001. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+8.) Write a program called COUNT to count the number of characters in a null-terminated ASCII string that are equal to a KEY. The
+KEY is stored in memory location 0x40001000. The string is stored in memory beginning at address 0x40001010. Store the 8-bit
+count in memory location 0x40001004. (Assume the maximum count is 255.) \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+9.) Write a program called ONES to determine the number of bits equal to one in a 32-bit variable. The 32-bit variable is in memory
+location 0x40001004. Store the 8-bit counter in memory location 0x40001000 \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+10.) Write a subroutine called STRLEN that determines the length of a null-terminated ASCII string. Pass the 32-bit start address of the
+string to the subroutine in register R0. Return the length, excluding the null byte, in register R7. All registers (except R7) should return
+to the calling program unchanged. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+11.) Write a subroutine called REPLACE that processes a null-terminated string of decimal characters and replaces leading zeros with
+spaces. Pass the 32-bit address of the string to the subroutine in register R0. \\
+
+\solution
+		
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+12.) Write a program called UNPACK to convert the 16-bit BCD variable in memory locations 0x40001000 and 0x40001001 to four
+ASCII characters with the high-order digit first, beginning in memory location 40001004H. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+;Simple Keil tools demonstration program
+;Modified from J.R. Gibson (7/14/07)
+;Modified by D. Egbert ver. 2.0 1/28/10
+;
+	AREA	Assembly1, CODE, READONLY
+	EXPORT	__main
+__main	
+	ENTRY
+mystart	LDR r3,= 0x40001000	;point to RAM location
+;
+;************************************************************************
+; For other programs (projects) replace the code below with new code.
+; Leave the code outside the ******* lines as is for all programs.
+; begin initialize data
+		LDR r4,= 0x25		;set first operand = 0x100
+		LDR r5,= 0x50		;set second operand to 0x50
+		STRB r4,[r3,#0]		;write first operand to memory
+		STRB r5,[r3,#1]		;write second operqand to memory
+; end initialize data
+		LDRB r0,[r3,#0]		;get first operand
+		LDRB r1,[r3,#1]		;get second operand
+		ADD	r2,r0,r1		;form the sum of the two values
+		STRB r2,[r3,#2]		;save sum
+; 		STRB r2,[r3,#3]		;save sum
+;************************************************************************
+;
+; an infinite loop because the processor continues to fetch instructions
+stop	BAL	stop
+	END			;END directive to show nothing more in file
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}	
+
+\end{document}
