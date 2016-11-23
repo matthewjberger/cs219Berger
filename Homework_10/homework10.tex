@@ -208,15 +208,10 @@ section .text
 ;*******************************************************
 ; put your code here
 start:
-		MOV	BX,[LSTL]
-		MOV	CL,0			;USE CL FOR LARGEST VALUE
-LP1:	MOV	AL,[BX+DLST]
-		CMP	CL,AL			;TEST IF BL > AL
-		JA	LPC				;CONTINUE IF NOT
-		MOV	CL,AL			;ELSE STORE NEW MAX
-LPC:	DEC	BX
-		JGE	LP1
-		MOV	[MAXV],CL
+		MOV	BL,[0x0150l] ; Store value at 0x0150 in lower bits of reg BX
+		MOV	BH,[0x0153h] ; Store value at 0x0154 in higher bits of reg B
+		MOV CP,[0x0154]      ; Move offset address to base pointer
+		MOV [CP],BX	     ; Write value of BX register to memory		
 ; end of your code
 ;*******************************************************		
 ILP:	JMP	ILP				;infinite loop
@@ -226,9 +221,6 @@ section .data
 ; beginning address of data = 0x0150
 ;*******************************************************
 ; put your data items here
-LSTL:	DB	14
-MAXV:	DB	0
-DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
 ; end of your data
 ;*******************************************************
 \end{lstlisting} \\
@@ -250,23 +242,23 @@ DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; Find 
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
 ;*******************************************************
 ; put your code here
 start:
-		MOV	BX,[LSTL]
-		MOV	CL,0			;USE CL FOR LARGEST VALUE
-LP1:	MOV	AL,[BX+DLST]
-		CMP	CL,AL			;TEST IF BL > AL
-		JA	LPC				;CONTINUE IF NOT
-		MOV	CL,AL			;ELSE STORE NEW MAX
+		MOV	BX,[0x150]
+		MOV	CL,0		; Store larger of two the two bytes
+LP1:	MOV	AL,[0x150+1]
+		CMP	CL,AL		; Test if byte 1 > byte 2
+		JA	LPC		; continue testing if not
+		MOV	CL,AL		; otherwise we've found the larger byte
 LPC:	DEC	BX
 		JGE	LP1
-		MOV	[MAXV],CL
+		MOV	[0x152],CL      ; Store the largest byte
 ; end of your code
 ;*******************************************************		
 ILP:	JMP	ILP				;infinite loop
@@ -276,9 +268,6 @@ section .data
 ; beginning address of data = 0x0150
 ;*******************************************************
 ; put your data items here
-LSTL:	DB	14
-MAXV:	DB	0
-DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
 ; end of your data
 ;*******************************************************
 \end{lstlisting} \\
@@ -300,23 +289,18 @@ count stored in memory location 0x0154 and store the results at memory address 0
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; LSHIFT
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
 ;*******************************************************
 ; put your code here
 start:
-		MOV	BX,[LSTL]
-		MOV	CL,0			;USE CL FOR LARGEST VALUE
-LP1:	MOV	AL,[BX+DLST]
-		CMP	CL,AL			;TEST IF BL > AL
-		JA	LPC				;CONTINUE IF NOT
-		MOV	CL,AL			;ELSE STORE NEW MAX
-LPC:	DEC	BX
-		JGE	LP1
-		MOV	[MAXV],CL
+		MOV BX, [0x0152] ; Store value at 0x0152 in register BX
+		MOV CX, 0x0154   ; Move the address for the result into CX
+		SHL BX, [0x0158] ; Left shift by the offset stored at 0x0158
+		MOV [CX], BX     ; Move the value in BX to memory
 ; end of your code
 ;*******************************************************		
 ILP:	JMP	ILP				;infinite loop
@@ -326,9 +310,6 @@ section .data
 ; beginning address of data = 0x0150
 ;*******************************************************
 ; put your data items here
-LSTL:	DB	14
-MAXV:	DB	0
-DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
 ; end of your data
 ;*******************************************************
 \end{lstlisting} \\
@@ -351,7 +332,7 @@ list is stored in an 8-bit variable at address 0x0150. Store the largest entry i
 \hline
 \begin{lstlisting}
 ; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
@@ -400,8 +381,8 @@ the list is stored in an 8-bit variable at address 0x0150. Store the largest ent
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; Find32 
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
@@ -451,7 +432,7 @@ list is stored in a 16-bit variable at addresses 0x0152 and 0x0154. The list beg
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
+; SCAN
 ; D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
@@ -502,8 +483,8 @@ memory location 0x0154. (Assume the maximum count is 255.) \\
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; COUNT
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
@@ -552,8 +533,8 @@ location 0x0154. Store the 8-bit counter in memory location 0x0150. \\
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; ONES 
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
@@ -603,8 +584,8 @@ return to the calling program unchanged. \\
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; STRLEN
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
@@ -653,8 +634,8 @@ spaces. Pass the 32-bit address of the string to the subroutine in register BX. 
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; Replace 
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
@@ -703,8 +684,8 @@ characters with the high-order digit first, beginning in memory location 0x0154.
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; UNPACK
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
@@ -713,13 +694,6 @@ section .text
 start:
 		MOV	BX,[LSTL]
 		MOV	CL,0			;USE CL FOR LARGEST VALUE
-LP1:	MOV	AL,[BX+DLST]
-		CMP	CL,AL			;TEST IF BL > AL
-		JA	LPC				;CONTINUE IF NOT
-		MOV	CL,AL			;ELSE STORE NEW MAX
-LPC:	DEC	BX
-		JGE	LP1
-		MOV	[MAXV],CL
 ; end of your code
 ;*******************************************************		
 ILP:	JMP	ILP				;infinite loop
