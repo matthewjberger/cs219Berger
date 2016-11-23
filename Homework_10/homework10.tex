@@ -152,23 +152,22 @@
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; SUB64 
+; Template by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
 ;*******************************************************
 ; put your code here
 start:
-		MOV	BX,[LSTL]
-		MOV	CL,0			;USE CL FOR LARGEST VALUE
-LP1:	MOV	AL,[BX+DLST]
-		CMP	CL,AL			;TEST IF BL > AL
-		JA	LPC				;CONTINUE IF NOT
-		MOV	CL,AL			;ELSE STORE NEW MAX
-LPC:	DEC	BX
-		JGE	LP1
-		MOV	[MAXV],CL
+    mov eax,[0x0150]    ; lower 32 bits of first num
+    mov edi,[0x0160]    ; lower 32 bits of second num
+    mov edx,[0x0154]    ; lower 32 bits of first num
+    mov esi,[0x0164]    ; lower 32 bits of second num    
+    sub %edi, %eax      ; Subtract lowest 32-bits, borrow reflected in carry flag
+    sbb %esi, %edx      ; Subtract highest 32-bits, and the borrow if there was one
+    mov [0x170],%esi    ; Copy high bits to memory
+    mov [0x174],%edi    ; Copy low bits to memory
 ; end of your code
 ;*******************************************************		
 ILP:	JMP	ILP				;infinite loop
@@ -178,9 +177,7 @@ section .data
 ; beginning address of data = 0x0150
 ;*******************************************************
 ; put your data items here
-LSTL:	DB	14
-MAXV:	DB	0
-DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; N/A
 ; end of your data
 ;*******************************************************
 \end{lstlisting} \\
@@ -203,8 +200,8 @@ the result as 16-bits in memory location 0x0154. \\
 \begin{tabular}{|c|}
 \hline
 \begin{lstlisting}
-; Find8 
-; D. Egbert ver 1.1 11/14/2016
+; COMBINE 
+; Templated by D. Egbert ver 1.1 11/14/2016
 org 100h
 section .text
 ; beginning address of code = 0x0100
