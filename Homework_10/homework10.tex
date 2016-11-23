@@ -1,0 +1,746 @@
+\documentclass[14pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{scrextend}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Assembly language code listing
+%
+\lstset{language=[x86masm]Assembler}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+\newcommand{\hmwkClass}{CS 219}
+\newcommand{\hmwkTitle}{Homework\ \#10}
+\newcommand{\hmwkDueDate}{November 23rd, 2016}
+\newcommand{\hmwkDueTime}{4:00pm}
+\newcommand{\hmwkClassInstructor}{Dr. Egbert}
+\newcommand{\hmwkAuthorName}{Matthew J. Berger}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at \hmwkDueTime}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution:}}
+
+% Alias for answers
+\newcommand{\answer}{\textbf{\large Answer: }}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+1.) Write a program called SUB64 to subtract the 64-bit integer in memory locations 0x0150 and 0x154 from the 64-bit integer in
+0x0160 and 0x0164. Store the result in memory location 0x0170 and 0x0174.\\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+2.) Write a program called COMBINE that combines the low-order nibbles of the four bytes in memory locations 0x0150 to 0x0153
+into a single 16-bit word. The nibbles should be ordered low-to-high in the result beginning with the data from location 0x0150. Store
+the result as 16-bits in memory location 0x0154. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+3.) Write a program called FIND to find the larger of two signed bytes. Assume the two bytes are in memory locations 0x0150 and
+0x0151. Store the larger of the two in memory location 0x0152.\\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+4.) Write a program called LSHIFT to shift logically the 32-bit contents of memory location 0x0150 left according to the 8-bit shift
+count stored in memory location 0x0154 and store the results at memory address 0x0158. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+5.) Write a program called FIND8 to find the largest unsigned 8-bit word in a list. The list begins at address 0x0154. The length of the
+list is stored in an 8-bit variable at address 0x0150. Store the largest entry in memory location 0x0152. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+6.) Write a program called FIND32 to find the largest unsigned 32-bit word in a list. The list begins at address 0x0160. The length of
+the list is stored in an 8-bit variable at address 0x0150. Store the largest entry in memory location 0x0154. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+7.) Write a program called SCAN to scan a list of unsigned bytes and find the smallest and largest entries in the list. The length of the
+list is stored in a 16-bit variable at addresses 0x0152 and 0x0154. The list begins at address 0x0160. Store the smallest byte at address
+0x0150 and the largest byte at address 0x0151. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+8.) Write a program called COUNT to count the number of characters in a null-terminated ASCII string that are equal to a KEY. The
+KEY is stored in memory location 0x0150. The string is stored in memory beginning at address 0x0160. Store the 8-bit count in
+memory location 0x0154. (Assume the maximum count is 255.) \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+9.) Write a program called ONES to determine the number of bits equal to one in a 32-bit variable. The 32-bit variable is in memory
+location 0x0154. Store the 8-bit counter in memory location 0x0150. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+10.) Write a subroutine called STRLEN that determines the length of a null-terminated ASCII string. Pass the 16-bit start address of the
+string to the subroutine in register BX. Return the length, excluding the null byte, in register CX. All registers (except CX) should
+return to the calling program unchanged. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+11.) Write a subroutine called REPLACE that processes a null-terminated string of decimal characters and replaces leading zeros with
+spaces. Pass the 32-bit address of the string to the subroutine in register BX.  \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+12.) Write a program called UNPACK to convert the 16-bit BCD variable in memory locations 0x0150 and 0x0151 to four ASCII
+characters with the high-order digit first, beginning in memory location 0x0154. \\
+
+\solution
+
+\begin{table}[h]
+\begin{tabular}{|c|}
+\hline
+\begin{lstlisting}
+; Find8 
+; D. Egbert ver 1.1 11/14/2016
+org 100h
+section .text
+; beginning address of code = 0x0100
+;*******************************************************
+; put your code here
+start:
+		MOV	BX,[LSTL]
+		MOV	CL,0			;USE CL FOR LARGEST VALUE
+LP1:	MOV	AL,[BX+DLST]
+		CMP	CL,AL			;TEST IF BL > AL
+		JA	LPC				;CONTINUE IF NOT
+		MOV	CL,AL			;ELSE STORE NEW MAX
+LPC:	DEC	BX
+		JGE	LP1
+		MOV	[MAXV],CL
+; end of your code
+;*******************************************************		
+ILP:	JMP	ILP				;infinite loop
+;
+TIMES 50H -($-$$) DB 0
+section .data
+; beginning address of data = 0x0150
+;*******************************************************
+; put your data items here
+LSTL:	DB	14
+MAXV:	DB	0
+DLST:	DB	254,5,25,250,100,150,30,200,253,15,23,46,73,175,0
+; end of your data
+;*******************************************************
+\end{lstlisting} \\
+\hline
+\end{tabular}
+\end{table}
+\end{homeworkProblem}
+
+\end{document}
