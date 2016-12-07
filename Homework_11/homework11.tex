@@ -1,0 +1,265 @@
+\documentclass[14pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{scrextend}
+\usepackage{graphicx}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Assembly language code listing
+%
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+\newcommand{\hmwkClass}{CS 219}
+\newcommand{\hmwkTitle}{Homework\ \#11}
+\newcommand{\hmwkDueDate}{December 7th, 2016}
+\newcommand{\hmwkDueTime}{4:00pm}
+\newcommand{\hmwkClassInstructor}{Dr. Egbert}
+\newcommand{\hmwkAuthorName}{Matthew J. Berger}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at \hmwkDueTime}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution:}}
+
+% Alias for answers
+\newcommand{\answer}{\textbf{\large Answer: }}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+Consider a machine with a byte addressable main memory of $2^{16}$ bytes and block size of 8 bytes.
+Assume that a direct mapped cache consisting of 32 lines is used with this machine. 
+		\begin{enumerate}[label=\alph*.)]
+			\item How is a 16-bit memory address divided into tag, line number, and byte number?
+			\item Into what line would bytes with each of the following addresses be stored?\\
+0001 0001 0001 1011 \\
+1100 0011 0011 0100 \\
+1101 0000 0001 1101 \\ 
+1010 1010 1010 1010 \\
+			\item Suppose the byte with address 0001 1010 0001 1010 is stored in the cache.What are the
+addresses of the other bytes stored along with it?	
+			\item How many total bytes of memory can be stored in the cache?
+			\item Why is the tag also stored in the cache?
+		\end{enumerate}
+		
+		\solution
+		
+		\begin{enumerate}[label=\alph*.)]
+			\item The first 8 bits are the tag, the 5 middle bits are the line, and the 3 rightmost bits are the byte number.
+			\item Line 3, Line 6, Line 3, and then Line 21.
+			\item All of the bytes that have addresses in the range of 0001 1010 0001 1000 through 0001 1010 0001 1111 are stored in the cache.	
+			\item 256 total bytes of memory can be stored in the cache.
+			\item The tag is also stored in the cache because two objects with two different memory addresses can technically be stored in the same exact place in the cache. The tag is necessary to tell them apart.
+		\end{enumerate}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+
+Consider a memory system that uses a 32-bit address to address at the byte level, plus a cache that uses
+a 64-byte line size.
+		\begin{enumerate}[label=\alph*.)]
+			\item Assume a direct mapped cache with a tag field in the address of 20 bits. Show the address
+format and determine the following parameters: number of addressable units, number of blocks
+in main memory, number of lines in cache, size of tag.
+			\item Assume an associative cache. Show the address format and determine the following
+parameters: number of addressable units, number of blocks in main memory, number of lines in
+cache, size of tag.
+			\item Assume a four-way set-associative cache with a tag field in the address of 9 bits. Show the
+address format and determine the following parameters: number of addressable units, number
+of blocks in main memory, number of lines in set, number of sets in cache, number of lines in
+cache, size of tag.
+		\end{enumerate}
+		
+		\solution
+		
+		\begin{enumerate}[label=\alph*.)]
+			\item 
+			\begin{itemize}
+				\item Address format: Tag = 20 bits. Line = 6 bits. Word = 6 bits.
+				\item Number of addressable units: $2^{S+W}=2^{32}$ bytes.
+				\item Number of blocks in main memory: $2^S=2^{26}$
+				\item Number of lines in cache: $2^R=2^6=64$
+				\item Size of tag: 20 bits
+			\end{itemize}
+			\item 
+			\begin{itemize}
+				\item Address format: Tag = 26 bits. Word = 6 bits.
+				\item Number of addressable units: $2^{s+w}=2^{32}$ bytes.
+				\item Number of blocks in main memory: $2^s=2^{26}$
+				\item Number of lines in cache: Undetermined
+				\item Size of tag: 26 bits
+			\end{itemize}
+			\item 
+			\begin{itemize}
+				\item Address format: Tag = 9 bits. Set = 17 bits. Word = 6 bits.
+				\item Number of addressable units: $2^{S+W}=2^{32}$ bytes.
+				\item Number of blocks in main memory: $2^S=2^{26}$
+				\item Number of lines in set: $k=4$
+				\item Number of sets in cache: $2^d=2^{17}$
+				\item Number of lines in cache: $k \times 2^d=2^{19}$
+				\item Size of tag: 9 bits
+			\end{itemize}
+		\end{enumerate}
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+Suppose an 8-bit data word stored in memory is 11000010. Using the Hamming algorithm, determine what check bits would be stored in memory with the data word. Show how you got your answer.\\
+
+\solution
+
+Value 1 data bits are in the bit positions 12, 11, 5, 4, 2, and 1 as demonstrated below.\\
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+Position & 12   & 11   & 10 & 9  & 8  & 7  & 6  & 5    & 4  & 3  & 2  & 1  \\ \hline
+Bits     & D8   & D7   & D6 & D5 & C8 & D4 & D3 & D2   & C4 & D1 & C2 & C1 \\ \hline
+Block    & 1    & 1    & 0  & 0  &    & 0  & 0  & 1    &    & 0  &    &    \\ \hline
+Codes    & 1100 & 1011 &    &    &    &    &    & 0101 &    &    &    &    \\ \hline
+\end{tabular}\\
+
+The check bits are in bits 12, 11, 10, and 9.\\
+Check bit 8 was calculated using values in bits: 12, 11, 10, and 9.\\
+Check bit 4 was calculated using values in bits: 12, 7, 6, and 5.\\
+Check bit 2 was calculated using values in bits: 11, 10, 7, 6, and 3.\\
+Check bit 1 was calculated using values in bits: 11, 9, 7, 5, and 3.\\
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+For the 8-bit word 00111001, the check bits stored with it would be 0111. Suppose when the word is read from memory, the check bits are calculated to be 1101.What is the data word that was read from
+memory?\\
+
+\solution
+
+The Hamming Word was initially this:\\
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 \\ \hline
+0  & 0  & 1  & 1 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 \\ \hline
+\end{tabular}\\
+
+Doing an XOR of 0111 and 1101 yields 1010, which means there was an error in bit 10 of our Hamming Word. This means the data word that was read from memory was \textbf{00011001}.
+
+
+
+\end{homeworkProblem}
+\end{document}
